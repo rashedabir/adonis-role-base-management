@@ -1,12 +1,16 @@
 // import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from "@ioc:Adonis/Core/Validator";
 import Todo from "App/Models/Todo";
+import Database from "@ioc:Adonis/Lucid/Database";
 
 export default class TodosController {
   // show list
-  public async index({ response }) {
-    const todos = await Todo.all();
+  public async index({ response, request }) {
+    const page = request.input("page", 1);
+    const limit = request.input("limit", 10);
+    const todos = await Database.from("todos").paginate(page, limit);
 
+    todos.baseUrl("/todos");
     return response.ok(todos);
   }
 

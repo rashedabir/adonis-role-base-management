@@ -5,7 +5,7 @@ Route.group(() => {
   Route.post("/login", "AuthController.login");
 
   Route.group(() => {
-    Route.get("/todo", "TodosController.index").middleware("auth");
+    Route.post("/todos", "TodosController.index").middleware("auth");
     Route.put("/todo/:id", "TodosController.update")
       .middleware("auth")
       .middleware("authAdmin");
